@@ -1,0 +1,8 @@
+
+          <li>
+            <!-- Для начала добавим ссылку на компонент с суммой и колличеством и новый путь в модуль. 
+            Ссылка будет вести по этому пути к новому компоненту где будут отображаться товары корзины.-->
+               <a routerLink="/cart-details" class="cart-link-sum">
+                 <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                 Cart | {{ cartPrice | currency: 'USD' }}</a>
+          </li>

@@ -1,0 +1,97 @@
+      <!-- Компонент врхней части сайта с поиском категриями и т.д. -->
+      <!-- banner bg main start -->
+      <div class="banner_bg_main">
+        <!-- header top section start -->
+        <!-- logo section start -->
+       <div class="container">
+          <div class="row">
+             <div class="col-sm-12">
+                <div class="logo"><a href="index.html"><img src="assets/img/Ecommerce_logo.png"></a></div>
+             </div>
+          </div>
+       </div>
+        <!-- logo section end -->
+        <!-- header section start -->
+       <div class="container">
+          <div class="containt_main">
+                          <!-- <div class="dropdownmenu">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All Category 
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                   <a class="dropdown-item" href="#">Action</a>
+                   <a class="dropdown-item" href="#">Another action</a>
+                   <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+             </div>-->
+               <div class="site-nav"> 
+                   <div class="site-navigation">
+                       <ul class="d-lg-inline-block site-menu">
+                           <li class="has-children">
+                               <a href="#">Categories</a>
+                               <ul class="dropdown">
+                                 <div *ngFor="let singleProductCategory of productCategories" >
+                                     <li *ngIf="singleProductCategory.productsubcategories.length==1">
+                                       <a routerLink="category/{{singleProductCategory.id}}" class="dropdown-item">{{singleProductCategory.categoryName}}</a>
+                                    </li>
+                                    <li *ngIf="singleProductCategory.productsubcategories.length>1" class="has-children">
+                                       <a routerLink="category/{{singleProductCategory.id}}" class="dropdown-item" href="#">{{singleProductCategory.categoryName}}</a>
+                                       <ul class="dropdown">
+                                          <li *ngFor="let singleProductSubcategory of singleProductCategory.productsubcategories">
+                                             <a routerLink="subcategory/{{singleProductSubcategory.id}}" class="dropdown-item" href="#">
+                                                {{singleProductSubcategory.categoryName}}
+                                             </a>
+                                          </li>
+                                       </ul>
+                                    </li>
+                                 </div>
+                               </ul>
+                           </li>
+                       </ul>
+                   </div>
+               </div>
+             <div class="main">
+               <!-- Далее настроим фронтенд (Angular). Необходимо рассмотреть Event Binding. К примеру наживаем на кнопку 
+                     на странице (нажатие это event) и происходит вызов какойто функции определенной в классе компонента 
+                     связанного с этой html страницей. 
+                     -->
+                <div class="input-group">
+               <!--Ниже пример кода. В круглых скобках события типа клик мышы (click) по кнопке или клик какой либо кнопки на клавиатуре (keyup.enter) и т.д.
+                     и после равно указываем то что происходит по этому событию типа вызов метода ( doSearch(myInput.value) ). 
+                     Также можно считать введенное юзером значение в input по id присвоенного этому input (#myInput) и передать 
+                     это заначение в метод как параметр (myInput.value). Как видем здесь происходит событие keyup.enter
+                     тоест нажатие кнопки Enter, а по этому событию происходит вызов метода в компоненте. 
+                     Событий есть много разных (dbclick - по двойному щеслчку, keydown - по нажатию любой кнопки, и другие)
+                     -->
+                   <input #myInput type="text" class="form-control" placeholder="Search this blog" (keyup.enter)="doSearch(myInput.value)">
+                      <button (click)="doSearch(myInput.value)" class="btn" type="button">
+                      <i class="fa fa-search"></i>
+                      </button>
+                </div>
+             </div>
+             <div class="header_box">
+               <div class="login_menu">
+                  <ul>
+                     <app-cart-price></app-cart-price>
+                     <!-- Добавим сверху кнопку для перехода в компонент истории покупок юзера с путем с роутгвардом. 
+                     Отображаеться кнопка только если пользователь авторизирован isAuthenticated. -->
+                     <li><a *ngIf="isAuthenticated" routerLink="/history" class="security-btn">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        History</a>
+                     </li>
+                     <!-- Важный момент что если сверху не будет *ngIf="!isAuthenticated" и кнопка будет
+                     видна не аутентифицированному пользователю и если такой пользователь нажмет на нее то он будет 
+                     перенаправлен на страницу для входа методом goToLogin-->
+                     <li><a *ngIf="!isAuthenticated" routerLink="/login" class="security-btn">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        Login</a>
+                     </li>
+                     <li><a *ngIf="isAuthenticated" (click)="logout()" class="security-btn">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        Logout</a>
+                     </li>
+                  </ul>
+               </div>
+            </div>
+          </div>
+       </div>
+     </div>

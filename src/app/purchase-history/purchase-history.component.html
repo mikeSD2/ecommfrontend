@@ -1,0 +1,64 @@
+        <!-- Компонент истории покупок. -->
+        <!-- Bottom Bar Start -->
+        <div class="bottom-bar">
+        </div>
+        <!-- Bottom Bar End --> 
+        
+        <!-- Breadcrumb Start -->
+        <div class="breadcrumb-wrap">
+            <div class="container-fluid">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Products</a></li>
+                    <li class="breadcrumb-item active">Wishlist</li>
+                </ul>
+            </div>
+        </div>
+        <!-- Breadcrumb End -->
+
+        <!-- Wishlist Start -->
+        <div class="wishlist-page">
+            <div class="container-fluid">
+                <div class="wishlist-page-inner">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="history__select">
+                                Sort by: &nbsp;
+                                <select class="form-select form-select-sm" (change)="onSelectChange($event)">
+                                    <option value="1">
+                                        Newest
+                                    </option>
+                                    <option value="2">
+                                        Oldest
+                                    </option>
+                                    <option value="3">
+                                        Cost
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Tracking number</th>
+                                            <th>Order Price</th>
+                                            <th>Items Quantity</th>
+                                            <th>Order created date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="align-middle">
+                                        <!--На страничке выводим заказы покупателя.-->
+                                        <tr *ngFor="let singleOrder of purchaseHistoryList">
+                                            <td>{{singleOrder.trackingNumber}}</td>
+                                            <td>{{singleOrder.itemsPrice}}</td>
+                                            <td>{{singleOrder.itemsQuantity}}</td>
+                                            <td>{{singleOrder.dateCreated}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>

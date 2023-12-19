@@ -1,0 +1,205 @@
+    <!-- Компонент для оформления заказа. -->
+    <!-- Offcanvas Menu Begin -->
+    <div class="offcanvas-menu-overlay"></div>
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="containercontainer">
+                        <div class="breadcrumb__links">
+                            <a href="./index.html">Home</a>
+                            <a href="./shop.html">Shop</a>
+                            <span>Check Out</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Checkout Section Begin -->
+    <section class="checkout spad">
+        <div class="container">
+            <div class="checkout__form">
+				<!-- теперь у нас не будет кнопки как раньше для оформления заказа вместо нее будет ранее упомянутая paypal кнопка 
+				Поэтому мы убираем вызов функции onSubmit. Теперь мы будем делать Submit формы программно прямиком в классе если 
+				платеж прошел успешно. пометим форму #checkoutForm В классе далле будет пояснено зачем-->
+                <form #checkoutForm [formGroup]="checkoutFormGroup">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-6">
+							<div class="cart-page-inner">
+								<h6 class="checkout__title">Billing Details</h6>
+								<div formGroupName="customer" class="row">
+									<div class="col-lg-6">
+										<div class="checkout__input">
+											<p>Fist Name<span>*</span></p>
+											<input formControlName="firstName" type="text">
+											<div *ngIf="firstName?.invalid && (firstName?.touched || firstName?.dirty)" class="alert alert-danger mt-1">
+												<div *ngIf="firstName?.errors?.['required'] || firstName?.errors?.['notOnlyWhitespace']">
+													First Name is required
+												</div>
+												<div *ngIf="firstName?.errors?.['minlength']">
+													Write at least two characters.
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="checkout__input">
+											<p>Last Name<span>*</span></p>
+											<input formControlName="lastName" type="text">
+											<div *ngIf="lastName?.invalid && (lastName?.touched || lastName?.dirty)" class="alert alert-danger mt-1">
+												<div *ngIf="lastName?.errors?.['required'] || lastName?.errors?.['notOnlyWhitespace']">
+													Last Name is required
+												</div>
+												<div *ngIf="lastName?.errors?.['minlength']">
+													Write at least two characters.
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div formGroupName="customer" class="row">
+									<div class="col-lg-6">
+										<div class="checkout__input">
+											<p>Email<span>*</span></p>
+											<input formControlName="email" type="text">
+											<div *ngIf="email?.invalid && (email?.touched || email?.dirty)" class="alert alert-danger mt-1">
+												<div *ngIf="email?.errors?.['required']">
+													Email is required
+												</div>
+												<div *ngIf="email?.errors?.['email']">
+													Format of email is invalid
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="checkout__input">
+											<p>Phone<span>*</span></p>
+											<input formControlName="phoneNumber" type="text">
+											<div *ngIf="phoneNumber?.invalid && (phoneNumber?.touched || phoneNumber?.dirty)" class="alert alert-danger mt-1">
+												<div *ngIf="phoneNumber?.errors?.['required']">
+													Phone Number is required
+												</div>
+												<div *ngIf="phoneNumber?.errors?.['pattern']">
+													Format of Phone Number is invalid
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div formGroupName="someOrderInfo" class="checkout__input__checkbox">
+									<label for="diff-acc">
+										Note me by email when order will come
+										<input formControlName="noteByEmail" type="checkbox" id="diff-acc">
+										<span class="checkmark"></span>
+									</label>
+								</div>
+								<div formGroupName="address" >
+									<div class="checkout__input">
+										<p>Country<span>*</span></p>
+										<select formControlName="country" (change)="getRegions()" class="form-select">
+											<option *ngFor="let country of countries" [ngValue]="country" value="1">
+												{{ country.name }}
+											</option>
+										</select>
+										<div *ngIf="addressCountry?.invalid && (addressCountry?.touched || addressCountry?.dirty)" class="alert alert-danger mt-1">
+											<div *ngIf="addressCountry?.errors?.['required']">
+												Country is required
+											</div>
+										</div>
+									</div>
+									<div class="checkout__input">
+										<p>Address<span>*</span></p>
+										<input formControlName="street" type="text" placeholder="Street Address" class="checkout__input__add">
+										<div *ngIf="addressStreet?.invalid && (addressStreet?.touched || addressStreet?.dirty)" class="alert alert-danger mt-1">
+											<div *ngIf="addressStreet?.errors?.['required'] || addressStreet?.errors?.['notOnlyWhitespace']">
+												Street is required
+											</div>
+											<div *ngIf="addressStreet?.errors?.['minlength']">
+												Write at least two characters.
+											</div>
+										</div>
+									</div>
+									<div class="checkout__input">
+										<p>Town/City<span>*</span></p>
+										<input formControlName="city" type="text">
+										<div *ngIf="addressCity?.invalid && (addressCity?.touched || addressCity?.dirty)" class="alert alert-danger mt-1">
+											<div *ngIf="addressCity?.errors?.['required'] || addressCity?.errors?.['notOnlyWhitespace']">
+												City is required
+											</div>
+											<div *ngIf="addressCity?.errors?.['minlength']">
+												City must be at least 2 characters long
+											</div>
+										</div>
+									</div>
+									<div class="checkout__input">
+										<p>Country/Region<span>*</span></p>
+										<select formControlName="region" class="form-select">
+											<option *ngFor="let region of regions" [ngValue]="region" value="1">
+												{{ region.name }}
+											</option>
+										</select>
+										<div *ngIf="addressRegion?.invalid && (addressRegion?.touched || addressRegion?.dirty)" class="alert alert-danger mt-1">
+											<div *ngIf="addressRegion?.errors?.['required']">
+												Region is required
+											</div>
+										</div>
+
+									</div>
+									<div class="checkout__input">
+										<p>Postcode / ZIP<span>*</span></p>
+										<input formControlName="zipCode" type="text">
+										<div *ngIf="addressZipCode?.invalid && (addressZipCode?.touched || addressZipCode?.dirty)" class="alert alert-danger mt-1">
+											<div *ngIf="addressZipCode?.errors?.['required'] || addressZipCode?.errors?.['notOnlyWhitespace']">
+												Zip code is required
+											</div>
+		
+											<div *ngIf="addressZipCode?.errors?.['minlength']">
+												Write at least two characters.
+											</div>
+										</div>
+									</div>
+								</div>
+								<div formGroupName="someOrderInfo" class="checkout__input">
+									<p>Order notes</p>
+									<input formControlName="orderNotes" type="text"
+									placeholder="Notes about your order, e.g. special notes for delivery.">
+									<div *ngIf="orderNotes?.invalid && (orderNotes?.touched || orderNotes?.dirty)" class="alert alert-danger mt-1">
+										<div *ngIf="orderNotes?.errors?.['minlength']">
+											Write at least 15 characters.
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+                        <div class="col-lg-4 col-md-6">
+							<div class="cart-page-inner">
+								<div class="checkout__order">
+									<h4 class="order__title">Your order</h4>
+									<div class="checkout__order__products">Product <span>Total</span></div>
+									<ul class="checkout__total__products">
+										<li *ngFor="let singleItem of shoppingCartItems"> 
+											{{singleItem.name}} 
+											<span>{{ singleItem.quantity! * singleItem.itemPrice! | currency: 'USD' }}</span>
+										</li>
+									</ul>
+									<ul class="checkout__total__all">
+										<li>Total Quantity<span>{{cartQuantity}}</span></li>
+										<li>Total Price<span>{{cartPrice | currency:'USD' }}</span></li>
+									</ul>
+									
+									<!-- Вот сюда будет монтироваться форма. Этот div элемент будем иполучать в классе с помощью @ViewChild -->
+									<div #paypal></div>
+								</div>
+							</div>
+						</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>

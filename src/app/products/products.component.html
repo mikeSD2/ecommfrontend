@@ -1,0 +1,116 @@
+<!-- Компонент с продуктами -->
+<!--<div class="slider-area">
+        	
+    <div class="block-slider block-slider4">
+        <ul class="" id="bxslider-home4">
+            <li>
+                <img src="assets/img/h4-slide.png" alt="Slide">
+                <div class="caption-group">
+                    <h2 class="caption title">
+                        iPhone <span class="primary">6 <strong>Plus</strong></span>
+                    </h2>
+                    <h4 class="caption subtitle">Dual SIM</h4>
+                    <a class="caption button-radius" href="#"><span class="icon"></span>Shop now</a>
+                </div>
+            </li>
+            <li><img src="assets/img/h4-slide2.png" alt="Slide">
+                <div class="caption-group">
+                    <h2 class="caption title">
+                        by one, get one <span class="primary">50% <strong>off</strong></span>
+                    </h2>
+                    <h4 class="caption subtitle">school supplies & backpacks.*</h4>
+                    <a class="caption button-radius" href="#"><span class="icon"></span>Shop now</a>
+                </div>
+            </li>
+            <li><img src="assets/img/h4-slide3.png" alt="Slide">
+                <div class="caption-group">
+                    <h2 class="caption title">
+                        Apple <span class="primary">Store <strong>Ipod</strong></span>
+                    </h2>
+                    <h4 class="caption subtitle">Select Item</h4>
+                    <a class="caption button-radius" href="#"><span class="icon"></span>Shop now</a>
+                </div>
+            </li>
+            <li><img src="assets/img/h4-slide4.png" alt="Slide">
+                <div class="caption-group">
+                  <h2 class="caption title">
+                        Apple <span class="primary">Store <strong>Ipod</strong></span>
+                    </h2>
+                    <h4 class="caption subtitle">& Phone</h4>
+                    <a class="caption button-radius" href="#"><span class="icon"></span>Shop now</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>-->
+
+<!-- Добавим сортировку продуктов и заказов в истории заказов. -->
+
+<div class="container-fluid pt-5 pb-3">
+    <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Products</span></h2>
+    <div class="col-md-12">
+    <!-- в элементе сортировки select над продуктами -->
+    <div class="history__select">
+        Sort by: &nbsp;
+        <!-- по изменению значения селекта вызываеться функция onSelectChange($event) 
+            в которую передаеться обьект $event в котором храниться вся информация о 
+            произошедшем событии включая значение селекта (значение это то что в value="тоесть здесь") -->
+        <select class="form-select form-select-sm" (change)="onSelectChange($event)">
+            <option value="1">
+                Newest
+            </option>
+            <option value="2">
+                Rating
+            </option>
+            <option value="3">
+                Cost (max to min)
+            </option>
+            <option value="4">
+                Cost (min to max)
+            </option>
+        </select>
+    </div>
+    <div class="row px-xl-5">
+        <div *ngFor="let singleProduct of products" class="col-lg-3 col-md-4 col-sm-6 pb-1">
+            <div class="product-item bg-light mb-4">
+                <div class="product-img position-relative overflow-hidden">
+                    <img class="img-fluid w-100" src={{singleProduct.imageUrl}} alt="">
+                    <div class="product-action">
+                        <a (click)="addToShoppingCart(singleProduct)" class="btn">
+                            <i class="fa fa-shopping-cart"></i> Add to cart
+                        </a>
+                    </div>
+                </div>
+                <div class="text-center py-4">
+                    <a routerLink="/products/{{ singleProduct.id }}" class="h6 text-decoration-none text-truncate" href="">
+                        {{singleProduct.name}}</a>
+                    <div class="d-flex align-items-center justify-content-center mt-2">
+                        <a routerLink="/products/{{ singleProduct.id }}">
+                            <h5>${{singleProduct.unitPrice}}</h5>
+                            <h6 class="text-muted ml-2"><del>$800.00</del></h6>
+                        </a>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center mb-1">
+                        <ngb-rating [max]="5" [(rate)]="singleProduct.rating!" [readonly]="true"></ngb-rating>
+                        <small>({{singleProduct.ratingsAmount}})</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="products?.length == 0" class="alert alert-warning col-md-12" role="alert">
+            No products found.
+        </div>
+    </div>
+</div>
+    <div class="pagination-element">
+        <ngb-pagination [(page)]="thePageNumber"
+                        [pageSize]="thePageSize"
+                        [collectionSize]="theTotalElements"
+                        [maxSize]="5"
+                        (pageChange)="listProducts()">
+
+        </ngb-pagination>
+    </div>
+    <!-- end footer -->
+</div>
+<!-- Products End -->
